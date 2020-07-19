@@ -1,15 +1,16 @@
 {
-  "name": "node-react-template",
+  "name": "multiplayerbooks",
   "version": "1.0.0",
-  "description": "A nodejs and react/redux template to be used on heroku",
+  "description": "A web app that allows you to read books together :)",
   "main": "index.js",
   "scripts": {
     "start": "node server",
-    "build": "cd client/ && npm install && npm run build && cd ../server/ && npm install"
+    "build": "cd client/ && npm install && npm run build && cd ../server/ && npm install",
+    "preinstall": "cd client/ && npm install && cd ../server/ && npm install"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TheFloatingTree/node-react-template.git"
+    "url": "git+https://github.com/TheFloatingTree/MultiplayerBooks.git"
   },
   "author": "thefloatingtree",
   "license": "ISC"

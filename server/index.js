@@ -6,7 +6,12 @@ const PORT = process.env.PORT || 5000
 const start = () => {
   const express = require('express')
   const path = require('path')
+  const passport = require('passport')
   const app = express()
+
+  app
+    .use(passport.initialize())
+    .use(passport.session())
 
   app.use(express.static(path.resolve(__dirname, '../client/build')))
 

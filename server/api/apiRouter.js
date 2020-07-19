@@ -1,7 +1,10 @@
 const express = require('express');
+const passport = require('passport');
 const router = express.Router();
 
-// Handle routes
+router.post('/login', passport.authenticate('local'), (req, res) => {
+    res.json(res)
+})
 
 router.get('*', (req, res) => {
     res.send('Bad Request')
