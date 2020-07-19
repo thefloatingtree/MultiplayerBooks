@@ -1,4 +1,4 @@
-const bcrypt = require('node-bcrypt')
+// const bcrypt = require('node-bcrypt')
 const LocalStrategy = require('passport-local').Strategy
 const sendQuery = require('./util/postgresDBConnect')
 
