@@ -7,16 +7,20 @@ const start = () => {
   const express = require('express')
   const path = require('path')
   const passport = require('passport')
+  const bodyParser = require('body-parser')
   const app = express()
+  require('./passport')(passport)
 
   app
+    .use(bodyParser.json())
+    .use(bodyParser.urlencoded({ extended: true }))
     .use(passport.initialize())
     .use(passport.session())
 
   app.use(express.static(path.resolve(__dirname, '../client/build')))
 
   // Handle api requests
-  app.use('/api', require('./api/apiRouter'))
+  app.use('/api', require('./api/apiRouter')(passport))
 
   // All remaining requests return the React app, so it can handle routing.
   app.get('*', (req, res) => {
