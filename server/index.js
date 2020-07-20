@@ -12,23 +12,24 @@ const start = () => {
   const app = express()
   require('./passport')
 
+  // Do some setup
   app
     .use(bodyParser.json())
     .use(bodyParser.urlencoded({ extended: true }))
     .use(session({ secret: 'oatmeal are you crazy', resave: false, saveUninitialized: false }))
     .use(passport.initialize())
     .use(passport.session())
-
-  app.use(express.static(path.resolve(__dirname, '../client/build')))
+    .use(express.static(path.resolve(__dirname, '../client/build')))
 
   // Handle api requests
   app.use('/api', require('./api/apiRouter'))
 
   // All remaining requests return the React app, so it can handle routing.
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'))
   })
 
+  // Start er' up!
   app.listen(PORT, () => { console.log('Listening on', PORT) })
 }
 
