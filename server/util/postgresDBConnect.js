@@ -4,7 +4,6 @@ let pool;
 if (process.env.NODE_ENV === 'production') {
     pool = new Pool({ connectionString: process.env.DATABASE_URL });
 } else {
-    console.log('Using dev database')
     pool = new Pool({
         user: 'postgres',
         host: 'localhost',

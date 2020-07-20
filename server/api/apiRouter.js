@@ -1,14 +1,12 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
-module.exports = passport => {
-    router.post('/login', passport.authenticate('local'), (req, res) => {
-        res.json(req.user)
-    })
-    
-    router.get('*', (req, res) => {
-        res.send('Bad Request')
-    })
+const userRouter = require('./userRouter')
 
-    return router
-}
+router.use('/user', userRouter)
+
+router.get('*', (req, res) => {
+    res.send('Bad Request')
+})
+
+module.exports = router
