@@ -16,7 +16,15 @@ const start = () => {
   app
     .use(bodyParser.json())
     .use(bodyParser.urlencoded({ extended: true }))
-    .use(session({ secret: 'oatmeal are you crazy', resave: false, saveUninitialized: false }))
+    .use(session({
+      secret: 'oatmeal are you crazy',
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        sameSite: true,
+        maxAge: 365 * 24 * 60 * 60 * 1000
+      }
+    }))
     .use(passport.initialize())
     .use(passport.session())
     .use(express.static(path.resolve(__dirname, '../client/build')))

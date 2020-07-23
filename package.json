@@ -13,5 +13,8 @@
     "url": "git+https://github.com/TheFloatingTree/MultiplayerBooks.git"
   },
   "author": "thefloatingtree",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "debounce-promise": "^3.1.2"
+  }
 }

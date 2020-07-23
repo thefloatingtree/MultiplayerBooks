@@ -12,7 +12,7 @@ router.post('/signup', (req, res) => {
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
             sendQuery(`INSERT INTO users (username, password) VALUES ('${req.body.username}', '${hash}')`)
-                .then(res => {
+                .then(result => {
                     res.sendStatus(200)
                 })
                 .catch(err => {
@@ -22,18 +22,22 @@ router.post('/signup', (req, res) => {
         });
 })
 
-router.get('/userExists', (req, res) => {
-    sendQuery(`SELECT * FROM users WHERE username = '${req.body.username}'`)
+router.get('/exists', (req, res) => {
+    sendQuery(`SELECT * FROM users WHERE username = '${req.query.username}'`)
         .then(users => {
             if (users.rows[0]) {
-                users.json({ username: req.body.username, exists: true })
+                res.json({ username: req.query.username, exists: true })
             } else {
-                users.json({ username: req.body.username, exists: false })
+                res.json({ username: req.query.username, exists: false })
             }
         })
         .catch(err => {
-            res.status(404).json(err)
+            res.status(500).json(err)
         })
+})
+
+router.get('/authenticated', (req, res) => {
+    res.json({isAuthenticated: !!req.user, user: req.user})
 })
 
 module.exports = router

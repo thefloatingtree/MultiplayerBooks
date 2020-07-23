@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import defaultSlice from './slices/default/defaultSlice'
+import userSlice from './slices/user/userSlice'
 
 export default combineReducers({ 
-    default: defaultSlice.reducer
+    user: userSlice.reducer
 })

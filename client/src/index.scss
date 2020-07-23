@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 // // Set your brand colors
-// $purple: #8a4d76;
+$purple: #d421da;
 // $pink: #fa7c91;
 // $brown: #757763;
 // $beige-light: #d0d1cd;
@@ -11,7 +11,7 @@
 // $family-sans-serif: 'Nunito', sans-serif;
 // $grey-dark: $brown;
 // $grey-light: $beige-light;
-// $primary: $purple;
+$primary: $purple;
 // $link: $pink;
 // $widescreen-enabled: false;
 // $fullhd-enabled: false;
@@ -31,3 +31,4 @@
 @import '../node_modules/bulma/sass/form/_all.sass';
 @import '../node_modules/bulma/sass/layout/_all.sass';
 @import '../node_modules/bulma/sass/grid/_all.sass';
+@import '../node_modules/bulma/sass/helpers/_all.sass';
