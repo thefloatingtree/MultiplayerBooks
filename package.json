@@ -6,15 +6,14 @@
   "scripts": {
     "start": "node server",
     "build": "cd client/ && npm install && npm run build && cd ../server/ && npm install",
-    "preinstall": "cd client/ && npm install && cd ../server/ && npm install"
+    "preinstall": "cd client/ && npm install && cd ../server/ && npm install",
+    "client": "cd client/ && npm start",
+    "server": "cd server/ && nodemon index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/TheFloatingTree/MultiplayerBooks.git"
   },
   "author": "thefloatingtree",
-  "license": "ISC",
-  "dependencies": {
-    "debounce-promise": "^3.1.2"
-  }
+  "license": "ISC"
 }
