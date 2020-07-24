@@ -8,10 +8,15 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
     res.json(req.user)
 })
 
+router.get('/logout', (req, res) => {
+    req.logout()
+    res.sendStatus(200)
+})
+
 router.post('/signup', (req, res) => {
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
-            sendQuery(`INSERT INTO users (username, password) VALUES ('${req.body.username}', '${hash}')`)
+            sendQuery(`INSERT INTO users (username, password) VALUES ('${req.body.username.toLowerCase()}', '${hash}')`)
                 .then(result => {
                     res.sendStatus(200)
                 })
@@ -23,12 +28,13 @@ router.post('/signup', (req, res) => {
 })
 
 router.get('/exists', (req, res) => {
-    sendQuery(`SELECT * FROM users WHERE username = '${req.query.username}'`)
+    const username = req.query.username.toLowerCase()
+    sendQuery(`SELECT * FROM users WHERE username = '${username}'`)
         .then(users => {
             if (users.rows[0]) {
-                res.json({ username: req.query.username, exists: true })
+                res.json({ username, exists: true })
             } else {
-                res.json({ username: req.query.username, exists: false })
+                res.json({ username, exists: false })
             }
         })
         .catch(err => {

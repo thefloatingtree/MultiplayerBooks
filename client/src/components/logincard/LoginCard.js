@@ -4,6 +4,7 @@ import styles from './LoginCard.module.sass'
 import classes from 'classnames'
 
 import axios from 'axios'
+import cookies from 'js-cookie'
 import { useHistory } from 'react-router-dom'
 import { setUser } from '../../redux/slices/user/userActions'
 
@@ -13,6 +14,16 @@ const LoginCard = ({ setUser }) => {
     const [info, setInfo] = useState({ username: '', password: '' })
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [rememberMe, setRememberMe] = useState(false)
+
+    useEffect(() => {
+        setRememberMe(!!cookies.getJSON('rememberMe'))
+    }, [])
+
+    const toggleRememberMe = () => {
+        cookies.set('rememberMe', !rememberMe)
+        setRememberMe(!rememberMe)
+    }
 
     const onLogin = () => {
         if (info.username === "" || info.password === "") return
@@ -20,7 +31,7 @@ const LoginCard = ({ setUser }) => {
         axios.post('/api/user/login', info)
             .then(res => {
                 setUser({ ...res.data, isAuthenticated: true })
-                history.push('/profile')
+                history.push('/')
             })
             .catch(() => {
                 setError(true)
@@ -53,6 +64,12 @@ const LoginCard = ({ setUser }) => {
                         onChange={event => setInfo({ ...info, password: event.target.value })}
                         onKeyDown={event => { if (event.key === "Enter") onLogin() }}
                     />
+                </div>
+            </div>
+            <div className="field">
+                <div className="control">
+                    <input className={styles.pointer} type="checkbox" checked={rememberMe} onChange={toggleRememberMe} />
+                    <label className={styles.pointer} onClick={toggleRememberMe}> Remember me</label>
                 </div>
             </div>
             <div className="control">

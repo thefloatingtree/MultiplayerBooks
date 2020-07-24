@@ -18,7 +18,7 @@ export const SignUpCard = () => {
 
     useEffect(() => {
         if (info.username === "") return
-        setUsernameMetadata({ ...usernameMetadata, loading: true })
+        setUsernameMetadata(prev => { return { ...prev, loading: true }})
         checkUsername(info.username)
             .then(res => setUsernameMetadata({ dirty: true, availible: !res.data.exists, loading: false }))
             .catch(console.log)
@@ -29,7 +29,7 @@ export const SignUpCard = () => {
         axios.post('/api/user/signup', info)
             .then(() => {
                 axios.post('/api/user/login', info)
-                    .then(() => history.push('/profile'))
+                    .then(() => history.push('/'))
                     .catch(console.log)
             })
             .catch(console.log)
@@ -95,7 +95,7 @@ export const SignUpCard = () => {
                 <div className="is-6">
                     Already have an account?
                 </div>
-                <div className="button is-text has-text-link" onClick={() => history.push('/')}>
+                <div className="button is-text has-text-link" onClick={() => history.push('/login')}>
                     Login
                 </div>
             </div>

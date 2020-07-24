@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs')
 const passport = require('passport')
 
 passport.use(new LocalStrategy((username, password, done) => {
-    sendQuery(`SELECT * FROM users WHERE username='${username}'`)
+    sendQuery(`SELECT * FROM users WHERE username='${username.toLowerCase()}'`)
         .then(users => {
             const user = users.rows[0]
             if (!user) return done(null, false)

@@ -1,11 +1,12 @@
 import React from 'react'
-import { SignUpCard } from '../../components/signupcard/SignUpCard'
 
-export const Register = () => {
+export const PageNotFound = () => {
     return (
         <div className="columns is-centered">
             <div className="column is-narrow">
-                <SignUpCard></SignUpCard>
+                <div className="container">
+                    <div className="title">Page Not Found</div>
+                </div>
             </div>
         </div>
     )

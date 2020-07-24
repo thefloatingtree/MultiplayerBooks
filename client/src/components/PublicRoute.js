@@ -21,14 +21,14 @@ const PrivateRoute = ({ component: Component, isAuthenticated, setUser, ...rest 
             setAuthenticated(true)
             setLoading(false)
         }
-    }, [])
+    }, [isAuthenticated, setUser])
 
     if (loading) return null
     return (
         <Route {...rest} render={(props) => (
             authenticated === false
                 ? <Component {...props} />
-                : <Redirect to='/profile' />
+                : <Redirect to='/' />
         )} />
     )
 }
