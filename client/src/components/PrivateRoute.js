@@ -12,7 +12,6 @@ const PrivateRoute = ({ component: Component, isAuthenticated, setUser, ...rest 
     useEffect(() => {
         if (!isAuthenticated) {
             axios.get('/api/user/authenticated').then(res => {
-                console.log(res.data)
                 setUser({ ...res.data.user, isAuthenticated: res.data.isAuthenticated })
                 setAuthenticated(res.data.isAuthenticated)
                 setLoading(false)
