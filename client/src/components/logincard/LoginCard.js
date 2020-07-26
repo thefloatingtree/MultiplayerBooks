@@ -69,7 +69,7 @@ const LoginCard = ({ setUser }) => {
             <div className="field">
                 <div className="control">
                     <input className={styles.pointer} type="checkbox" checked={rememberMe} onChange={toggleRememberMe} />
-                    <label className={styles.pointer} onClick={toggleRememberMe}> Remember me</label>
+                    <label className={styles.pointer} onClick={toggleRememberMe}> Keep me signed in</label>
                 </div>
             </div>
             <div className="control">

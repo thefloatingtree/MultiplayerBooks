@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCog } from '@fortawesome/free-solid-svg-icons'
 import { connect } from 'react-redux'
 import NavbarSettingsDropdown from './NavbarSettingsDropdown'
+import NavbarNotificationsDropdown from './NavbarNotificationsDropdown'
 
 const Navbar = ({ isAuthenticated, username }) => {
 
@@ -36,7 +37,9 @@ const Navbar = ({ isAuthenticated, username }) => {
                                 <div className="level-left mx-5"></div>
                                 <div className="level-right mx-6">
                                     <div className="level-item">
-                                    
+                                        <NavbarNotificationsDropdown></NavbarNotificationsDropdown>
+                                    </div>
+                                    <div className="level-item">
                                         <NavbarSettingsDropdown></NavbarSettingsDropdown>
                                     </div>
                                 </div>
