@@ -32,3 +32,20 @@ $primary: $purple;
 @import '../node_modules/bulma/sass/layout/_all.sass';
 @import '../node_modules/bulma/sass/grid/_all.sass';
 @import '../node_modules/bulma/sass/helpers/_all.sass';
+
+// Global styles
+
+@keyframes fade-in {
+    0%  {
+        opacity: 0
+    }
+
+    100% {
+        opacity: 100
+    }
+}
+
+.fadeIn {
+    animation: fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1)
+}
+

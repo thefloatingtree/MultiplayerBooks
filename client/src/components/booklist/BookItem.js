@@ -6,9 +6,9 @@ import classes from 'classnames'
 const BookItem = ({ data }) => {
 
     const buildPartyString = (num) => {
-        if (num <= 0) return "No one is reading this book with you"
-        if (num === 1) return "1 person is reading this book with you"
-        if (num >= 1) return num + " people are reading this book with you"
+        if (num <= 0) return "No one is reading this book with you."
+        if (num === 1) return "1 person is reading this book with you."
+        if (num >= 1) return num + " people are reading this book with you."
     }
 
     return (
@@ -19,7 +19,10 @@ const BookItem = ({ data }) => {
                 </div>
             </div>
             <div className="column">
-                <p>{buildPartyString(data.partyCount)}</p>
+                <p>
+                    {buildPartyString(data.partyCount)}
+                    <a>{data.partyCount === 0 ? " Invite a friend" : " Invite another friend"}</a>
+                </p>
             </div>
             <div className="column">
                 <span className="is-pulled-left">{data.completedChapterCount} of {data.chapterCount} chapters completed</span>

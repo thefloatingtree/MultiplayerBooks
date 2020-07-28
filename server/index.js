@@ -9,13 +9,14 @@ const start = () => {
   const passport = require('passport')
   const bodyParser = require('body-parser')
   const session = require('express-session')
+  const fileUpload = require('express-fileupload')
   const app = express()
   require('./passport')
 
   // Do some setup
   app
-    .use(bodyParser.json())
-    .use(bodyParser.urlencoded({ extended: true }))
+    .use(bodyParser.json({ limit: '10mb' }))
+    .use(bodyParser.urlencoded({ extended: true, limit: '10mb', parameterLimit: 1000000 }))
     .use(session({
       secret: 'oatmeal are you crazy',
       resave: false,
@@ -25,6 +26,7 @@ const start = () => {
         maxAge: 365 * 24 * 60 * 60 * 1000
       }
     }))
+    .use(fileUpload())
     .use(passport.initialize())
     .use(passport.session())
     .use(express.static(path.resolve(__dirname, '../client/build')))

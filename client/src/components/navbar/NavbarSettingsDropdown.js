@@ -47,6 +47,8 @@ const NavbarSettingsDropdown = ({ user, setUser }) => {
                         <p>Signed in as <strong>{user.username}</strong></p>
                     </div>
                     <hr className="dropdown-divider"></hr>
+                    <a className="dropdown-item" onClick={logOut}>Help</a>
+                    <a className="dropdown-item" onClick={logOut}>Settings</a>
                     <a className="dropdown-item" onClick={logOut}>Logout</a>
                 </div>
             </div>

@@ -12,6 +12,7 @@ import Navbar from './components/navbar/Navbar'
 import { Login } from './pages/login/Login'
 import { PageNotFound } from './pages/pagenotfound/PageNotFound'
 import RememberMe from './components/RememberMe'
+import { AddBook } from './pages/addbook/AddBook'
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
             <Navbar></Navbar>
             <Switch>
                 <PrivateRoute path="/" exact component={Profile}></PrivateRoute>
+                <PrivateRoute path="/addBook" component={AddBook}></PrivateRoute>
                 <PublicRoute path="/login" component={Login}></PublicRoute>
                 <PublicRoute path="/register" component={Register}></PublicRoute>
                 <Route component={PageNotFound}></Route>

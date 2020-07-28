@@ -25,7 +25,7 @@ const Navbar = ({ isAuthenticated, username }) => {
             <div className="column is-narrow">
                 <div className={styles.nav}>
                     <div className="container">
-                        <div className={classes('title', styles.brand)} >Multiplayer Books</div>
+                        <div className={classes('title', styles.brand, styles.selectable)} onClick={() => { goTo('/') }} >Multiplayer Books</div>
                     </div>
                 </div>
             </div>
