@@ -1,10 +1,10 @@
 const express = require('express')
 const sendQuery = require('../util/postgresDBConnect')
+const formatJSONString = require('../util/formatJSONString')
 const router = express.Router()
 const parseEpub = require('@gxl/epub-parser').parseEpub
 
 router.post('/parse', (req, res) => {
-    console.log(req.files)
     parseEpub(req.files.file.data, { type: 'buffer' })
         .then(data => {
             res.json(data)
@@ -15,7 +15,17 @@ router.post('/parse', (req, res) => {
 })
 
 router.post('/add', (req, res) => {
-    res.sendStatus(200)
+    const userID = req.body.userID
+    const book = formatJSONString(JSON.stringify(req.body.book))
+    sendQuery(`INSERT INTO books (user_id, data) VALUES (${userID}, '${book}') RETURNING id`)
+        .then(result => {
+            const bookID = result.rows[0].id
+            sendQuery(`INSERT INTO book_user (user_id, book_id) VALUES (${userID}, '${bookID}')`)
+            res.sendStatus(200)
+        })
+        .catch(err => {
+            res.json(err)
+        })
 })
 
 module.exports = router

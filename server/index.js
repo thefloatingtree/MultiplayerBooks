@@ -35,7 +35,7 @@ const start = () => {
   app.use('/api', require('./api/apiRouter'))
 
   // All remaining requests return the React app, so it can handle routing.
-  app.get('*', (req, res) => {
+  app.get('*', function(req, res) {
     res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'))
   })
 

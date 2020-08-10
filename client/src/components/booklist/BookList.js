@@ -8,6 +8,7 @@ import classes from 'classnames'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faUpload } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
+import { useHistory } from 'react-router-dom'
 
 const BookList = () => {
 
@@ -17,6 +18,8 @@ const BookList = () => {
         { title: "Eljunbyro", chapterCount: 255, completedChapterCount: 103, partyCount: 1 },
         { title: "Innavedr", chapterCount: 237, completedChapterCount: 0, partyCount: 0 }
     ]
+
+    const history = useHistory()
 
     // const uploadFile = event => {
     //     const formData = new FormData();
@@ -40,12 +43,12 @@ const BookList = () => {
                     </div>
                     <div className="level-right">
                         <div className="level-item">
-                            <div className="button is-link is-outlined">
+                            <button className="button is-link is-outlined" onClick={() => history.push('/book/add')}>
                                 <span>Add Book</span>
                                 <span className="icon">
                                     <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
                                 </span>
-                            </div>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -57,8 +60,8 @@ const BookList = () => {
                 {data.map((book, index) => {
                     const lastItem = data.length - 1 === index
                     return (
-                        <div className="container">
-                            <BookItem key={index} data={book}></BookItem>
+                        <div key={index} className="container">
+                            <BookItem data={book}></BookItem>
                             {!lastItem &&
                                 <hr className="ml-5 mt-3"></hr>
                             }

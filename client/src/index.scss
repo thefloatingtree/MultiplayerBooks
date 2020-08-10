@@ -49,3 +49,53 @@ $primary: $purple;
     animation: fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1)
 }
 
+.selectable {
+    cursor: pointer;
+}
+
+@media (max-width:641px)  { 
+    body, html, #root {
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden;
+    }
+}
+
+html {
+    -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+html::-webkit-scrollbar {
+    display: none;
+}
+
+// A button that looks like a link. Useful for JS-only actions.
+// https://github.com/jgthms/bulma/issues/1583
+.button-link {
+    color: $link;
+    font-size: 16px;
+    background-color: transparent;
+    border-color: transparent;
+  
+    &:hover {
+      color: $link-hover;
+      text-decoration: underline;
+      background-color: transparent;
+      border-color: transparent;
+      cursor: pointer;
+    }
+  
+    &:focus {
+      text-decoration: underline;
+      border-color: transparent;
+      box-shadow: none;
+      outline: none;
+    }
+  
+    // Remove all padding and height so it's just plain, unpadded text.
+    &.button-text {
+      padding: 0;
+      height: unset;
+    }
+  }
