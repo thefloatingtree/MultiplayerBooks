@@ -38,7 +38,6 @@ const BookList = () => {
             return (
                 <div className="container fadeIn">
                     <div className="field is-grouped is-pulled-right">
-
                         <div className="control">
                             <div className="level is-mobile">
                                 <div className="level-left">
@@ -71,7 +70,12 @@ const BookList = () => {
                         </div>
 
                         <div className="control">
-                            <button className="button is-link is-outlined" onClick={() => history.push('/book/add')}>Add A Book</button>
+                            <button className="button is-link is-outlined" onClick={() => history.push('/book/add')}>
+                                <span>Add Book</span>
+                                <div className="icon">
+                                    <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
+                                </div>
+                            </button>
                         </div>
                     </div>
                     <table className="table is-fullwidth is-hoverable">

@@ -34,40 +34,42 @@ const Navbar = ({ isAuthenticated, user, setUser }) => {
                         <div className={classes('title', 'is-4', 'selectable', styles.brand)} onClick={() => history.push('/')} >Multiplayer Books</div>
                     </div>
                 </div>
-                <div className="level-right">
-                    <div className="level-item">
-                        <Dropdown
-                            triggerElement={
-                                <button className="button is-text">
-                                    <span className="icon">
-                                        <FontAwesomeIcon icon={faBell}></FontAwesomeIcon>
-                                    </span>
-                                </button>
-                            }
-                            items={[
-                                new DropdownTextItem(<p>Notifications go here</p>)
-                            ]}
-                        ></Dropdown>
+                {isAuthenticated &&
+                    <div className="level-right">
+                        <div className="level-item">
+                            <Dropdown
+                                triggerElement={
+                                    <button className="button is-text">
+                                        <span className="icon">
+                                            <FontAwesomeIcon icon={faBell}></FontAwesomeIcon>
+                                        </span>
+                                    </button>
+                                }
+                                items={[
+                                    new DropdownTextItem(<p>Notifications go here</p>)
+                                ]}
+                            ></Dropdown>
+                        </div>
+                        <div className="level-item">
+                            <Dropdown
+                                triggerElement={
+                                    <button className="button is-text">
+                                        <span className="icon">
+                                            <FontAwesomeIcon icon={faCog}></FontAwesomeIcon>
+                                        </span>
+                                    </button>
+                                }
+                                items={[
+                                    new DropdownTextItem(<p>Signed in as <strong>{user.username}</strong></p>),
+                                    new DropdownDivderItem(),
+                                    new DropdownLinkItem(<p>Help</p>, logOut),
+                                    new DropdownLinkItem(<p>Settings</p>, logOut),
+                                    new DropdownLinkItem(<p>Logout</p>, logOut),
+                                ]}
+                            ></Dropdown>
+                        </div>
                     </div>
-                    <div className="level-item">
-                        <Dropdown
-                            triggerElement={
-                                <button className="button is-text">
-                                    <span className="icon">
-                                        <FontAwesomeIcon icon={faCog}></FontAwesomeIcon>
-                                    </span>
-                                </button>
-                            }
-                            items={[
-                                new DropdownTextItem(<p>Signed in as <strong>{user.username}</strong></p>),
-                                new DropdownDivderItem(),
-                                new DropdownLinkItem(<p>Help</p>, logOut),
-                                new DropdownLinkItem(<p>Settings</p>, logOut),
-                                new DropdownLinkItem(<p>Logout</p>, logOut),
-                            ]}
-                        ></Dropdown>
-                    </div>
-                </div>
+                }
             </div>
         </div>
     )
