@@ -2,92 +2,125 @@ import React, { useState, useEffect } from 'react'
 import styles from './BookList.module.sass'
 import BookItem from './BookItem'
 
-// import parser from 'davidka/epub-parser'
-
 import classes from 'classnames'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faUpload } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faUpload, faArrowDown, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
+import mapObjectToObject from '../../util/mapObjectToObject'
+import { BookProgress } from '../../models/BookProgress'
+import { Book } from '../../models/Book'
+import { Dropdown, DropdownLinkItem, DropdownTextItem, DropdownDivderItem } from '../common/Dropdown'
 
 const BookList = () => {
 
-    // title:string, author:string description:string, coverImage:image, chapters:Chapter[], completedChapterCount:number, party:User[], lastedited:datetime, created:datetime
-    const data = [
-        { title: "Austraeoh", author: "", description: "", chapterCount: 200, completedChapterCount: 150, partyCount: 3 },
-        { title: "Eljunbyro", chapterCount: 255, completedChapterCount: 103, partyCount: 1 },
-        { title: "Innavedr", chapterCount: 237, completedChapterCount: 0, partyCount: 0 }
-    ]
-
     const history = useHistory()
 
-    // const uploadFile = event => {
-    //     const formData = new FormData();
-    //     formData.append('file', event.target.files[0])
-    //     axios.post('/api/books/parse', formData ).then(res => {
-    //         console.log(res.data)
-    //     })
-    // }
+    const [books, setBooks] = useState(null)
 
-    return (
-        <>
-            <div className="container fadeIn">
-                <div className="level ml-5">
-                    <div className="level-left">
-                        <div className="tabs is-toggle">
-                            <ul>
-                                <li className="is-active" ><a>Unfinished</a></li>
-                                <li><a>Completed</a></li>
-                            </ul>
+    useEffect(() => {
+        axios.get('/api/books/get')
+            .then(res => {
+                // Transform response object into something more useful
+                setBooks(res.data.map(bookData => {
+                    return {
+                        ...bookData,
+                        book: mapObjectToObject(bookData.book, new Book()),
+                        bookProgress: mapObjectToObject(bookData.bookProgress, new BookProgress())
+                    }
+                }))
+            })
+    }, [])
+
+    const buildBookTable = () => {
+        if (books === null) return null
+        if (books.length) {
+            return (
+                <div className="container fadeIn">
+                    <div className="field is-grouped is-pulled-right">
+
+                        <div className="control">
+                            <div className="level is-mobile">
+                                <div className="level-left">
+                                    <div className="level-item mx-3">
+                                        <div className="subtitle is-6">Sort By</div>
+                                    </div>
+                                </div>
+                                <div className="level-right">
+                                    <div className="level-item">
+                                        <Dropdown
+                                            selectable
+                                            triggerElement={
+                                                <button className="button">
+                                                    <span className="">Recently Edited</span>
+                                                    <div className="icon">
+                                                        <FontAwesomeIcon icon={faChevronDown}></FontAwesomeIcon>
+                                                    </div>
+                                                </button>
+                                            }
+                                            items={[
+                                                new DropdownLinkItem(<p>Recently Edited</p>),
+                                                new DropdownLinkItem(<p>Created</p>),
+                                                new DropdownLinkItem(<p>Title</p>),
+                                                new DropdownLinkItem(<p>Author</p>),
+                                            ]}
+                                        ></Dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="control">
+                            <button className="button is-link is-outlined" onClick={() => history.push('/book/add')}>Add A Book</button>
                         </div>
                     </div>
-                    <div className="level-right">
-                        <div className="level-item">
-                            <button className="button is-link is-outlined" onClick={() => history.push('/book/add')}>
-                                <span>Add Book</span>
-                                <span className="icon">
-                                    <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
-                                </span>
-                            </button>
-                        </div>
+                    <table className="table is-fullwidth is-hoverable">
+                        <tbody>
+                            {books.map(book => {
+                                return (
+                                    <BookItem key={book.bookID} data={book}></BookItem>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+            )
+        } else {
+            return (
+                <div className="container fadeIn">
+                    <div className="title is-5">
+                        You haven't added any books yet
+                    </div>
+                    <div className="subtitle is-6">
+                        Click <button className="button-link px-0 mx-0" onClick={() => history.push('/book/add')}>here</button> to add one
                     </div>
                 </div>
-                {data.length === 0 && 
-                    <div className="container ml-5 mt-3">
-                        <div className="title is-5">You haven't added any books yet!</div>
+            )
+        }
+    }
+
+    return (
+        <div className="container fadeIn">
+            <div className="columns">
+                <div className="column is-narrow">
+                    <div className="field">
+                        <input className="input" type="text" placeholder="Search books" />
                     </div>
-                }
-                {data.map((book, index) => {
-                    const lastItem = data.length - 1 === index
-                    return (
-                        <div key={index} className="container">
-                            <BookItem data={book}></BookItem>
-                            {!lastItem &&
-                                <hr className="ml-5 mt-3"></hr>
-                            }
-                        </div>
-                    )
-                })}
-
-                {/* <div className="file has-name">
-                    <label className="file-label">
-                        <input type="file" className="file-input" onChange={uploadFile} />
-                        <span className="file-cta">
-                            <span className="file-icon">
-                                <FontAwesomeIcon icon={faUpload}></FontAwesomeIcon>
-                            </span>
-                            <span className="file-label">
-                                Choose a file...
-                            </span>
-                        </span>
-                        <span className="file-name">
-                            Testing.epub
-                            </span>
-                    </label>
-                </div> */}
-
+                    <aside className="menu">
+                        <p className="menu-label">Filters</p>
+                        <ul className="menu-list">
+                            <li><a className="is-active">All</a></li>
+                            <li><a>Shared With Me</a></li>
+                            <li><a>Unfinished</a></li>
+                            <li><a>Finished</a></li>
+                        </ul>
+                    </aside>
+                </div>
+                <div className="column">
+                    {buildBookTable()}
+                </div>
             </div>
-        </>
+        </div>
     )
 }
 

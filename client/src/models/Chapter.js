@@ -1,6 +1,7 @@
 export class Chapter {
-    constructor (epubChapter) {
-        this.title = epubChapter.name
-        this.completed = false
+    constructor({ id, title, wordCount }) {
+        this.id = id
+        this.title = title
+        this.wordCount = wordCount
     }
 }

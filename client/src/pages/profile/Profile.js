@@ -12,13 +12,6 @@ export const Profile = () => {
                     </div>
                 </div>
             </div>
-            <div className="column">
-                <div className="section">
-                    <div className="container">
-                        {/* <div className="title">Profile</div> */}
-                    </div>
-                </div>
-            </div>
         </div>
     )
 }

@@ -10,8 +10,9 @@ import FileUpload from './FileUpload'
 import { useHistory } from 'react-router-dom'
 import { Book } from '../../models/Book'
 import { ChapterView } from './ChapterView'
+import { BookProgress } from '../../models/BookProgress'
 
-const AddBookForm = ({ userID }) => {
+const AddBookForm = () => {
 
     const history = useHistory()
 
@@ -27,7 +28,7 @@ const AddBookForm = ({ userID }) => {
         selectedChapters.forEach(item => {
             if (!item.selected) book.removeChapter(item.chapter)
         })
-        axios.post("/api/books/add", { userID, book }).then(() => { history.push("/") })
+        axios.post("/api/books/add", { book, bookProgress: new BookProgress(book) }).then(() => { history.push("/") }).catch(console.log)
     }
 
     const getBody = () => {
@@ -42,7 +43,7 @@ const AddBookForm = ({ userID }) => {
             )
         } else {
             return (
-                // double container fade in to fix it not fading in at all, weird
+                // double containers with fade in to fix not fading in at all, weird
                 <div className="container fadeIn">
                     <div className="container fadeIn">
                         <div className="title is-4">Does this look right?</div>
@@ -97,8 +98,4 @@ const AddBookForm = ({ userID }) => {
     )
 }
 
-const mapStateToProps = state => ({
-    userID: state.user.id
-})
-
-export default connect(mapStateToProps)(AddBookForm)
+export default AddBookForm

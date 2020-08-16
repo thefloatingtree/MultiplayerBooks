@@ -21,7 +21,7 @@ export const ChapterView = ({ onSelectedChaptersChange, chapters, deselectedChap
 
     const chapterSelected = item => {
         setSelectedChapters(selectedChapters.map(element => {
-            if (element.chapter.title == item.chapter.title) {
+            if (element.chapter.title === item.chapter.title) {
                 element.selected = !item.selected
             }
             return element
@@ -43,7 +43,7 @@ export const ChapterView = ({ onSelectedChaptersChange, chapters, deselectedChap
                                 </td>
                             </tr>
                         )
-                    } else if (index == shownChapters) {
+                    } else if (index === shownChapters) {
                         return (
                             <tr key={index} >
                                 <td colSpan={2}>

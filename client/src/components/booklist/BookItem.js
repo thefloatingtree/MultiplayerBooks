@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react'
 import styles from './BookList.module.sass'
 
 import classes from 'classnames'
+import { useHistory } from 'react-router-dom'
 
 const BookItem = ({ data }) => {
+
+    const history = useHistory()
 
     const buildPartyString = (num) => {
         if (num <= 0) return "No one is reading this book with you."
@@ -12,23 +15,21 @@ const BookItem = ({ data }) => {
     }
 
     return (
-        <div className={classes("columns ml-5", styles.selectable, styles.listItem)}>
-            <div className="column is-narrow">
+        <tr className={classes(styles.selectable)} onClick={() => history.push('/book')}>
+            <td className="py-5 is-narrow">
                 <div className="title is-5">
-                    {data.title}
+                    {data.book.title}
                 </div>
-            </div>
-            <div className="column">
-                <p>
-                    {buildPartyString(data.partyCount)}
-                    <a>{data.partyCount === 0 ? " Invite a friend" : " Invite another friend"}</a>
-                </p>
-            </div>
-            <div className="column">
-                <span className="is-pulled-left">{data.completedChapterCount} of {data.chapterCount} chapters completed</span>
-                <progress className="progress is-link" value={(data.completedChapterCount / data.chapterCount) * 100} max="100"></progress>
-            </div>
-        </div>
+                <div className="subtitle is-6 has-text-grey">
+                    {data.book.author}
+                </div>
+            </td>
+            {/* <td className="py-5 is-narrow">{buildPartyString(1)}</td> */}
+            <td className="py-5">
+                {data.bookProgress.getCompletedChapterCount()} / {data.bookProgress.totalChapterCount} Chapters Completed
+                <progress className="progress is-link my-1" value={data.bookProgress.getPercentage()} max="100"></progress>
+            </td>
+        </tr>
     )
 }
 
