@@ -82,7 +82,7 @@ const Navbar = ({ isAuthenticated, user, setUser }) => {
                     <div className={classes(styles.nav, styles.fadeIn)}>
                         <div className="container">
                             <div className="level">
-                                <div className="level-left mx-6">
+                                <div className="level-left">
                                     {backPaths.includes(location.pathname) &&
                                         <div className="level-item">
                                             <button className="button is-text" onClick={() => history.push('/')}>
@@ -93,7 +93,7 @@ const Navbar = ({ isAuthenticated, user, setUser }) => {
                                         </div>
                                     }
                                 </div>
-                                <div className="level-right mx-6"></div>
+                                <div className="level-right"></div>
                             </div>
                         </div>
                     </div>
