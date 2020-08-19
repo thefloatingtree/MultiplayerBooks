@@ -28,7 +28,7 @@ router.post('/add', requiresLogin, (req, res) => {
             res.sendStatus(200)
         })
         .catch(err => {
-            res.json(err)
+            res.status(500).json(err)
         })
 })
 
@@ -59,7 +59,21 @@ router.get('/get', requiresLogin, (req, res) => {
             res.json(out)
         })
         .catch(err => {
-            res.json(err)
+            res.status(500).json(err)
+        })
+})
+
+router.put('/progress', requiresLogin, (req, res) => {
+    const userID = req.user.id
+    const bookID = req.body.bookID
+    const bookProgress = formatJSONString(JSON.stringify(req.body.bookProgress))
+
+    sendQuery(``)
+        .then(result => {
+            
+        })
+        .catch(err => {
+            res.status(500).json(err)
         })
 })
 

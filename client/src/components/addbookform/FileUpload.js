@@ -11,7 +11,7 @@ const FileUpload = ({ gotEpub }) => {
     const [loading, setLoading] = useState(false)
 
     const onFileInputChange = event => {
-        if (!event.target.files[0] || event.target.files[0].type != "application/epub+zip") {
+        if (!event.target.files[0] || event.target.files[0].type !== "application/epub+zip") {
             setFile(null)
             return
         }

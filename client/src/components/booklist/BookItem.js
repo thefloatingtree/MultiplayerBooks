@@ -4,9 +4,7 @@ import styles from './BookList.module.sass'
 import classes from 'classnames'
 import { useHistory } from 'react-router-dom'
 
-const BookItem = ({ data }) => {
-
-    const history = useHistory()
+const BookItem = ({ data, onSelect }) => {
 
     const buildPartyString = (num) => {
         if (num <= 0) return "No one is reading this book with you."
@@ -15,7 +13,7 @@ const BookItem = ({ data }) => {
     }
 
     return (
-        <tr className={classes(styles.selectable)} onClick={() => history.push('/book')}>
+        <tr className={classes(styles.selectable)} onClick={onSelect}>
             <td className="py-5 is-narrow">
                 <div className="title is-5">
                     {data.book.title}

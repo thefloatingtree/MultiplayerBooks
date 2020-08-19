@@ -11,29 +11,27 @@ import mapObjectToObject from '../../util/mapObjectToObject'
 import { BookProgress } from '../../models/BookProgress'
 import { Book } from '../../models/Book'
 import { Dropdown, DropdownLinkItem, DropdownTextItem, DropdownDivderItem } from '../common/Dropdown'
+import { connect } from 'react-redux'
+import { fetchAllBooks } from '../../redux/slices/books/booksThunks'
+import { setSelectedBook } from '../../redux/slices/books/booksActions'
+import { booksConvertReduxToApp } from '../../redux/slices/books/converters'
 
-const BookList = () => {
+
+const BookList = ({ books, fetchAllBooks, setSelectedBook }) => {
 
     const history = useHistory()
 
-    const [books, setBooks] = useState(null)
-
     useEffect(() => {
-        axios.get('/api/books/get')
-            .then(res => {
-                // Transform response object into something more useful
-                setBooks(res.data.map(bookData => {
-                    return {
-                        ...bookData,
-                        book: mapObjectToObject(bookData.book, new Book()),
-                        bookProgress: mapObjectToObject(bookData.bookProgress, new BookProgress())
-                    }
-                }))
-            })
+        fetchAllBooks()
     }, [])
 
+    const onSelectBook = (book) => {
+        setSelectedBook(book)
+        history.push('/book')
+    }
+
     const buildBookTable = () => {
-        if (books === null) return null
+        if (books === undefined) return null
         if (books.length) {
             return (
                 <div className="container fadeIn">
@@ -82,7 +80,7 @@ const BookList = () => {
                         <tbody>
                             {books.map(book => {
                                 return (
-                                    <BookItem key={book.bookID} data={book}></BookItem>
+                                    <BookItem key={book.bookID} data={book} onSelect={() => onSelectBook(book)}></BookItem>
                                 )
                             })}
                         </tbody>
@@ -128,4 +126,8 @@ const BookList = () => {
     )
 }
 
-export default BookList
+const mapStateToProps = state => ({
+    books: booksConvertReduxToApp(state.books.books)
+})
+
+export default connect(mapStateToProps, { fetchAllBooks, setSelectedBook })(BookList)

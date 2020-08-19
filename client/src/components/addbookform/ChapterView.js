@@ -9,15 +9,15 @@ export const ChapterView = ({ onSelectedChaptersChange, chapters, deselectedChap
     const shownChapters = 4
 
     useEffect(() => {
-        chapters.forEach(chapter => {
+        if (chapters) chapters.forEach(chapter => {
             const selected = deselectedChapters.some(item => item.title === chapter.title)
             setSelectedChapters(prevState => [...prevState, { selected, chapter }])
         })
-    }, [chapters])
+    }, [])
 
     useEffect(() => {
         onSelectedChaptersChange(selectedChapters)
-    }, [selectedChapters])
+    }, [selectedChapters, onSelectedChaptersChange])
 
     const chapterSelected = item => {
         setSelectedChapters(selectedChapters.map(element => {
@@ -57,6 +57,7 @@ export const ChapterView = ({ onSelectedChaptersChange, chapters, deselectedChap
                             </tr>
                         )
                     }
+                    return null
                 })}
             </tbody>
         </table>

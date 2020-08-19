@@ -13,7 +13,7 @@ import { Login } from './pages/login/Login'
 import { PageNotFound } from './pages/pagenotfound/PageNotFound'
 import RememberMe from './components/RememberMe'
 import { AddBook } from './pages/addbook/AddBook'
-import { DisplayBook } from './pages/displaybook/DisplayBook'
+import DisplayBook from './pages/displaybook/DisplayBook'
 
 function App() {
     return (
