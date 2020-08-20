@@ -18,4 +18,10 @@ export class Book {
     removeChapter(chapter) {
         this.chapters = this.chapters.filter(item => chapter.id !== item.id)
     }
+
+    getCompletedChapters(bookProgress) {
+        return this.chapters.filter(chapter => {
+            return bookProgress.getProgressByChapterID(chapter.id)
+        })
+    }
 }

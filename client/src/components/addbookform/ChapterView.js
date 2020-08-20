@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import classes from "classnames"
 
-export const ChapterView = ({ onSelectedChaptersChange, chapters, deselectedChapters = [] } = {}) => {
+export const ChapterView = ({ onSelectedChaptersChange = () => {}, onChapterSelect = () => {}, chapters, deselectedChapters: initialDeselectedChapters = [], intialSelectedChapters = [] } = {}) => {
 
     const [selectedChapters, setSelectedChapters] = useState([])
     const [expandChapters, setExpandChapters] = useState(false)
@@ -10,7 +10,9 @@ export const ChapterView = ({ onSelectedChaptersChange, chapters, deselectedChap
 
     useEffect(() => {
         if (chapters) chapters.forEach(chapter => {
-            const selected = deselectedChapters.some(item => item.title === chapter.title)
+            const selected = 
+                initialDeselectedChapters.some(item => item.title === chapter.title) || 
+                intialSelectedChapters.some(item => item.title === chapter.title)
             setSelectedChapters(prevState => [...prevState, { selected, chapter }])
         })
     }, [])
@@ -20,6 +22,7 @@ export const ChapterView = ({ onSelectedChaptersChange, chapters, deselectedChap
     }, [selectedChapters, onSelectedChaptersChange])
 
     const chapterSelected = item => {
+        onChapterSelect({ ... item, selected: !item.selected })
         setSelectedChapters(selectedChapters.map(element => {
             if (element.chapter.title === item.chapter.title) {
                 element.selected = !item.selected

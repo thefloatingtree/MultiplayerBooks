@@ -8,3 +8,10 @@ export const fetchAllBooks = createAsyncThunk(
         return response.data;
     }
 )
+
+// export const updateBookProgress = createAsyncThunk(
+//     'books/sendBookProgress',
+//     async ({ bookID, chapterID, value }) => {
+//         const response = await Axios.put('/api/books/progress', {  })
+//     }
+// )

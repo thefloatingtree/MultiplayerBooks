@@ -4,10 +4,36 @@ export class BookProgress {
         this.totalChapterCount = book?.chapters.length
         this.totalWordCount = 0;
         this.lastEdited = new Date().toISOString()
+
         if (book) book.chapters.forEach(chapter => {
             this.totalWordCount += chapter.wordCount
-            this.progress[chapter.id] = { completed: false, wordCount: chapter.wordCount }
+            this.progress[chapter.id] = this.buildProgressItem(false, chapter.wordCount)
         })
+    }
+
+    buildProgressItem(completed, wordCount) {
+        return {
+            completed,
+            wordCount
+        }
+    }
+
+    madeEdit() {
+        this.lastEdited = new Date().toISOString()
+    }
+
+    setProgressByChapterId(id, value) {
+        // Weird work around to solve issue with progress items being read-only
+        let newProgress = {}
+        let newProgressItem = this.buildProgressItem(value, this.progress[id].wordCount)
+        newProgress[id] = newProgressItem
+        this.progress = Object.assign({}, this.progress, newProgress)
+        this.madeEdit()
+        return this
+    }
+
+    getProgressByChapterID(id) {
+        return this.progress[id].completed
     }
 
     getCompletedWordCount() {

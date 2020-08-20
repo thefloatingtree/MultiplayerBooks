@@ -63,14 +63,24 @@ router.get('/get', requiresLogin, (req, res) => {
         })
 })
 
+// api/books/progress (bookID, bookProgress)
 router.put('/progress', requiresLogin, (req, res) => {
+
+    console.log(req.body)
+
     const userID = req.user.id
     const bookID = req.body.bookID
     const bookProgress = formatJSONString(JSON.stringify(req.body.bookProgress))
 
-    sendQuery(``)
+    console.log(bookProgress)
+
+    sendQuery(`
+        UPDATE book_user
+        SET data = '${bookProgress}'
+        WHERE user_id = ${userID} AND book_id = ${bookID}
+    `)
         .then(result => {
-            
+            res.sendStatus(200)
         })
         .catch(err => {
             res.status(500).json(err)

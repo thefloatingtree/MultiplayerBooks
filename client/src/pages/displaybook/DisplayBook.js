@@ -3,14 +3,24 @@ import { connect } from 'react-redux'
 import { bookConvertReduxToApp } from '../../redux/slices/books/converters'
 import { useHistory } from 'react-router-dom'
 import { ChapterView } from '../../components/addbookform/ChapterView'
+import { setSelectedBookProgressByChapterID } from '../../redux/slices/books/booksActions'
+import Axios from 'axios'
 
-const DisplayBook = ({ book, isBookSelected }) => {
+const DisplayBook = ({ book, isBookSelected, setSelectedBookProgressByChapterID }) => {
 
     const history = useHistory()
 
     useEffect(() => {
         if (!isBookSelected) history.replace('/')
     }, [])
+
+    const onChapterSelect = data => {
+        setSelectedBookProgressByChapterID({ id: data.chapter.id, value: data.selected })
+        Axios.put('/api/books/progress', {
+            bookID: book.bookID,
+            bookProgress: book.bookProgress.setProgressByChapterId(data.chapter.id, data.selected)
+        })
+    }
 
     return (
         <div className="section">
@@ -41,7 +51,11 @@ const DisplayBook = ({ book, isBookSelected }) => {
                                 </div>
                             </div>
                         </div>
-                        <ChapterView chapters={book.book.chapters} onSelectedChaptersChange={console.log}></ChapterView>
+                        <ChapterView
+                            chapters={book.book.chapters}
+                            onChapterSelect={onChapterSelect}
+                            intialSelectedChapters={book.book.getCompletedChapters(book.bookProgress)}
+                        ></ChapterView>
                     </div>
                 </div>
             </div>
@@ -54,4 +68,4 @@ const mapStateToProps = state => ({
     isBookSelected: Object.keys(state.books.selectedBook).length !== 0
 })
 
-export default connect(mapStateToProps)(DisplayBook)
+export default connect(mapStateToProps, { setSelectedBookProgressByChapterID })(DisplayBook)

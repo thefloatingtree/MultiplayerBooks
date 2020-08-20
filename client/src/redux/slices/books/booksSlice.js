@@ -21,6 +21,18 @@ export default createSlice({
         },
         setFilteredBooks: (state, action) => {
             state.filteredBooks = action.payload
+        },
+        setSelectedBookProgressByChapterID: (state, action) => {
+            state.books
+                .find(book => book.bookID === state.selectedBook.bookID)
+                .bookProgress.progress[action.payload.id].completed = action.payload.value
+
+            state.books
+                .find(book => book.bookID === state.selectedBook.bookID)
+                .bookProgress.lastEdited = new Date().toISOString()
+
+            state.selectedBook.bookProgress.progress[action.payload.id].completed = action.payload.value;
+            state.selectedBook.bookProgress.lastEdited = new Date().toISOString()
         }
     },
     extraReducers: {
