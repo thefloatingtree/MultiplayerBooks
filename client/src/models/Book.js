@@ -20,6 +20,7 @@ export class Book {
     }
 
     getCompletedChapters(bookProgress) {
+        if (!(this.chapters && bookProgress)) return []
         return this.chapters.filter(chapter => {
             return bookProgress.getProgressByChapterID(chapter.id)
         })
