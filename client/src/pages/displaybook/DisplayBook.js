@@ -1,25 +1,38 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { bookConvertReduxToApp } from '../../redux/slices/books/converters'
 import { useHistory } from 'react-router-dom'
 import { ChapterView } from '../../components/addbookform/ChapterView'
 import { setSelectedBookProgressByChapterID } from '../../redux/slices/books/booksActions'
 import Axios from 'axios'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisV, faUserPlus } from '@fortawesome/free-solid-svg-icons'
+import { Dropdown, DropdownLinkItem, DropdownDivderItem } from '../../components/common/Dropdown'
+import classes from 'classnames'
+import Modal from '../../components/common/Modal'
+import InviteFriendModal from '../../components/modals/InviteFriendModal'
 
 const DisplayBook = ({ book, isBookSelected, setSelectedBookProgressByChapterID }) => {
 
     const history = useHistory()
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         if (!isBookSelected) history.replace('/')
     }, [])
 
     const onChapterSelect = data => {
-        setSelectedBookProgressByChapterID({ id: data.chapter.id, value: data.selected })
+        setChapterCompletion(data.chapter.id, data.selected)
+    }
+
+    const setChapterCompletion = (id, value) => {
+        if (id === null) return
+        setLoading(true)
+        setSelectedBookProgressByChapterID({ id, value })
         Axios.put('/api/books/progress', {
             bookID: book.bookID,
-            bookProgress: book.bookProgress.setProgressByChapterId(data.chapter.id, data.selected)
-        })
+            bookProgress: book.bookProgress.setProgressByChapterId(id, value)
+        }).then(() => setLoading(false))
     }
 
     return (
@@ -42,19 +55,41 @@ const DisplayBook = ({ book, isBookSelected, setSelectedBookProgressByChapterID 
                         <div className="level">
                             <div className="level-left">
                                 <div className="level-item">
-                                    <button className="button is-link is-outlined">Invite A Friend</button>
+                                    <button
+                                        onClick={() => setChapterCompletion(book.bookProgress.getFirstUncompletedChapterId(), true)}
+                                        className={classes("button", { 'is-loading': loading })}
+                                    >Mark Next Chapter As Read</button>
+                                </div>
+                                <div className="level-item">
+                                    <InviteFriendModal book={book}></InviteFriendModal>
                                 </div>
                             </div>
                             <div className="level-right">
                                 <div className="level-item">
-                                    <button className="button">Mark Next Chapter As Read</button>
+                                    <Dropdown
+                                        triggerElement={
+                                            <button className="button is-text">
+                                                <div className="icon">
+                                                    <FontAwesomeIcon icon={faEllipsisV}></FontAwesomeIcon>
+                                                </div>
+                                            </button>
+                                        }
+                                        items={[
+                                            new DropdownLinkItem(<p>Remove a friend</p>),
+                                            new DropdownLinkItem(<p>Edit this book</p>),
+                                            new DropdownDivderItem(),
+                                            new DropdownLinkItem(<p className="has-text-danger">Delete this book</p>)
+                                        ]}
+                                    ></Dropdown>
                                 </div>
                             </div>
                         </div>
                         <ChapterView
                             chapters={book.book.chapters}
                             onChapterSelect={onChapterSelect}
-                            intialSelectedChapters={book.book.getCompletedChapters(book.bookProgress)}
+                            initialSelectedChapters={book.book.getCompletedChapters(book.bookProgress)}
+                            book={book}
+                            collapseAroundReadingPosition
                         ></ChapterView>
                     </div>
                 </div>

@@ -73,7 +73,7 @@ const AddBookForm = () => {
                         <ChapterView
                             chapters={book.chapters}
                             onSelectedChaptersChange={setSelectedChapters}
-                            deselectedChapters={book.chapters.filter(chapter => {
+                            initialSelectedChapters={book.chapters.filter(chapter => {
                                 return !deselectedChapterTitles.includes(chapter.title.toLowerCase())
                             })}
                         ></ChapterView>

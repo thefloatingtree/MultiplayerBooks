@@ -32,22 +32,32 @@ export class BookProgress {
         return this
     }
 
+    getFirstUncompletedChapterId() {
+        for (const chapterId in this.progress) {
+            if (this.progress[chapterId].completed === false)
+            {
+                return chapterId
+            }
+        }
+        return null
+    }
+
     getProgressByChapterID(id) {
         return this.progress[id].completed
     }
 
     getCompletedWordCount() {
         let completedWordCount = 0
-        for (const chapter in this.progress) {
-            completedWordCount += this.progress[chapter].completed ? this.progress[chapter].wordCount : 0
+        for (const chapterId in this.progress) {
+            completedWordCount += this.progress[chapterId].completed ? this.progress[chapterId].wordCount : 0
         }
         return completedWordCount
     }
 
     getCompletedChapterCount() {
         let completedChapterCount = 0
-        for (const chapter in this.progress) {
-            completedChapterCount += this.progress[chapter].completed ? 1 : 0
+        for (const chapterId in this.progress) {
+            completedChapterCount += this.progress[chapterId].completed ? 1 : 0
         }
         return completedChapterCount
     }

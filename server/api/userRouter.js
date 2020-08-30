@@ -2,6 +2,7 @@ const express = require('express')
 const sendQuery = require('../util/postgresDBConnect')
 const bcrypt = require('bcryptjs')
 const passport = require('passport')
+const { requiresLogin } = require('../middleware/authorization')
 const router = express.Router()
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
