@@ -17,9 +17,16 @@ const InviteFriendModal = ({ book, userUsername }) => {
     const [usernameMetadata, setUsernameMetadata] = useState({ dirty: false, exists: false, loading: false })
     const [inviteMetadata, setInviteMetadata] = useState({ dirty: false, exists: false, loading: false })
 
+    // Storing a function in the state is a pain in the butt, you've got to wrap your function in a parameterless anonymous function
+    const [setModalActive, setSetModalActive] = useState(() => () => {})
+
     const onInviteFriend = () => {
         if (simpleErrorHelper())
+        {
+            setModalActive(false)
             Axios.post('/api/invite', { username, bookID: book.bookID })
+            setUsername("")
+        }
     }
 
     useEffect(() => {
@@ -52,10 +59,8 @@ const InviteFriendModal = ({ book, userUsername }) => {
         return errorHelper(ok, error, error, error)
     }
 
-    let setModalActive
-
     return (
-        <Modal triggerElement={<button className="button is-link is-outlined">Invite A Friend</button>} setActive={setActive => setModalActive = setActive}>
+        <Modal triggerElement={<button className="button is-link is-outlined">Invite A Friend</button>} setActive={func => setSetModalActive(() => func)}>
             <div className="box">
                 <div className="title is-5">Invite a friend to read {book.book.title} with you</div>
                 <hr />

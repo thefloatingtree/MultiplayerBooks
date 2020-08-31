@@ -4,13 +4,13 @@ import { BookProgress } from "../../../models/BookProgress"
 
 // books
 export const booksConvertReduxToApp = reduxBooksData => {
+    if (!reduxBooksData) return []
     return reduxBooksData.map(bookData => {
         return bookConvertReduxToApp(bookData)
     })
 }
 
 // book
-
 export const bookConvertReduxToApp = reduxBookData => {
     return {
         ...reduxBookData,
@@ -20,7 +20,6 @@ export const bookConvertReduxToApp = reduxBookData => {
 }
 
 // all
-
 export const convertAppToRedux = data => {
     return JSON.parse(JSON.stringify(data))
 }

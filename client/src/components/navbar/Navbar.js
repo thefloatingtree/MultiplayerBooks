@@ -9,6 +9,7 @@ import { Dropdown, DropdownTextItem, DropdownLinkItem, DropdownDivderItem } from
 import axios from 'axios'
 import { setUser } from '../../redux/slices/user/userActions'
 import useWindowDimensions from '../../hooks/UseWindowDimensions'
+import Notifications from '../notifications/Notifications'
 
 const Navbar = ({ isAuthenticated, user, setUser }) => {
 
@@ -25,6 +26,45 @@ const Navbar = ({ isAuthenticated, user, setUser }) => {
         })
     }
 
+    const buildDropdowns = () => {
+        return (
+            <>
+                <div className="level-item">
+                    <Dropdown
+                        triggerElement={
+                            <button className="button is-text">
+                                <span className="icon">
+                                    <FontAwesomeIcon icon={faBell}></FontAwesomeIcon>
+                                </span>
+                            </button>
+                        }
+                        items={[
+                            new DropdownTextItem(<Notifications></Notifications>)
+                        ]}
+                    ></Dropdown>
+                </div>
+                <div className="level-item">
+                    <Dropdown
+                        triggerElement={
+                            <button className="button is-text">
+                                <span className="icon">
+                                    <FontAwesomeIcon icon={faCog}></FontAwesomeIcon>
+                                </span>
+                            </button>
+                        }
+                        items={[
+                            new DropdownTextItem(<p>Signed in as <strong>{user.username}</strong></p>),
+                            new DropdownDivderItem(),
+                            new DropdownLinkItem(<p>Help</p>, logOut),
+                            new DropdownLinkItem(<p>Settings</p>, logOut),
+                            new DropdownLinkItem(<p>Logout</p>, logOut),
+                        ]}
+                    ></Dropdown>
+                </div>
+            </>
+        )
+    }
+
     // Responsive mobile
     if (windowDimensions.width <= 769) return (
         <div className="container px-5 pt-5">
@@ -36,38 +76,7 @@ const Navbar = ({ isAuthenticated, user, setUser }) => {
                 </div>
                 {isAuthenticated &&
                     <div className="level-right">
-                        <div className="level-item">
-                            <Dropdown
-                                triggerElement={
-                                    <button className="button is-text">
-                                        <span className="icon">
-                                            <FontAwesomeIcon icon={faBell}></FontAwesomeIcon>
-                                        </span>
-                                    </button>
-                                }
-                                items={[
-                                    new DropdownTextItem(<p>Notifications go here</p>)
-                                ]}
-                            ></Dropdown>
-                        </div>
-                        <div className="level-item">
-                            <Dropdown
-                                triggerElement={
-                                    <button className="button is-text">
-                                        <span className="icon">
-                                            <FontAwesomeIcon icon={faCog}></FontAwesomeIcon>
-                                        </span>
-                                    </button>
-                                }
-                                items={[
-                                    new DropdownTextItem(<p>Signed in as <strong>{user.username}</strong></p>),
-                                    new DropdownDivderItem(),
-                                    new DropdownLinkItem(<p>Help</p>, logOut),
-                                    new DropdownLinkItem(<p>Settings</p>, logOut),
-                                    new DropdownLinkItem(<p>Logout</p>, logOut),
-                                ]}
-                            ></Dropdown>
-                        </div>
+                        {buildDropdowns()}
                     </div>
                 }
             </div>
@@ -114,38 +123,7 @@ const Navbar = ({ isAuthenticated, user, setUser }) => {
                                 <div className="level">
                                     <div className="level-left"></div>
                                     <div className="level-right">
-                                        <div className="level-item">
-                                            <Dropdown
-                                                triggerElement={
-                                                    <button className="button is-text">
-                                                        <span className="icon">
-                                                            <FontAwesomeIcon icon={faBell}></FontAwesomeIcon>
-                                                        </span>
-                                                    </button>
-                                                }
-                                                items={[
-                                                    new DropdownTextItem(<p>Notifications go here</p>)
-                                                ]}
-                                            ></Dropdown>
-                                        </div>
-                                        <div className="level-item">
-                                            <Dropdown
-                                                triggerElement={
-                                                    <button className="button is-text">
-                                                        <span className="icon">
-                                                            <FontAwesomeIcon icon={faCog}></FontAwesomeIcon>
-                                                        </span>
-                                                    </button>
-                                                }
-                                                items={[
-                                                    new DropdownTextItem(<p>Signed in as <strong>{user.username}</strong></p>),
-                                                    new DropdownDivderItem(),
-                                                    new DropdownLinkItem(<p>Help</p>, logOut),
-                                                    new DropdownLinkItem(<p>Settings</p>, logOut),
-                                                    new DropdownLinkItem(<p>Logout</p>, logOut),
-                                                ]}
-                                            ></Dropdown>
-                                        </div>
+                                        {buildDropdowns()}
                                     </div>
                                 </div>
                             </div>
